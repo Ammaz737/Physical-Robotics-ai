@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Product {
+  id            String   @id @default(uuid())
+  barcode       String   @unique
+  name          String
+  image         String?
+  weight        Float?
+  purchasePrice Float
+  salePrice     Float
+  stock         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  invoiceItems      InvoiceItem[]
+  salesRecordItems  SalesRecordItem[]
+
+  @@map("products")
+}
+
+model Customer {
+  id      String @id @default(uuid())
+  name    String
+  contact String?
+  email   String?
+  address String?
+  
+  invoices     Invoice[]
+  salesRecords SalesRecord[]
+
+  @@map("customers")
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  invoiceNo     String   @unique
+  customerId    String?
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  customerName  String?
+  customerContact String?
+  total         Float
+  paid          Float
+  change        Float
+  taxAmount     Float    @default(0)
+  taxPercent    Float    @default(0)
+  isTaxEnabled  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  items         InvoiceItem[]
+  sales         Sale[]
+
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id        String  @id @default(uuid())
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+  total     Float
+
+  @@map("invoice_items")
+}
+
+model Sale {
+  id           String   @id @default(uuid())
+  invoiceId    String
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  saleDate     DateTime @default(now())
+  totalAmount  Float
+  profitAmount Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("sales")
+}
+
+model SalesRecord {
+  id            String   @id @default(uuid())
+  invoiceNumber String   @unique
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id])
+  totalAmount   Float
+  taxAmount     Float    @default(0)
+  status        String   @default("completed")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  items         SalesRecordItem[]
+
+  @@map("sales_records")
+}
+
+model SalesRecordItem {
+  id            String      @id @default(uuid())
+  salesRecordId String
+  salesRecord   SalesRecord @relation(fields: [salesRecordId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product     @relation(fields: [productId], references: [id])
+  quantity      Int
+  unitPrice     Float
+  totalPrice    Float
+
+  @@map("sales_record_items")
+}
+
+model FinanceRecord {
+  id         String   @id @default(uuid())
+  checkImage String
+  date       DateTime
+  status     String   @default("Pending") // Pending, Clear, Bounce
+  amount     Float?
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("finance_records")
+}
+
+model OrderMemo {
+  id          String   @id @default(uuid())
+  company     String
+  bookingSlip String   // Image path
+  date        DateTime
+  notes       String?
+  amount      Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("order_memos")
+}
+
+model SyncLog {
+  id        String   @id @default(uuid())
+  tableName String
+  recordId  String
+  action    String   // CREATE, UPDATE, DELETE
+  timestamp DateTime @default(now())
+  synced    Boolean  @default(false)
+
+  @@map("sync_logs")
+}
