@@ -1,0 +1,67 @@
+/* LearningObjectives.module.css */
+
+.learningObjectivesSection {
+  padding: 4rem 0;
+  text-align: center;
+  background-color: var(--ifm-background-color);
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: var(--ifm-color-primary);
+  text-shadow: 0 0 8px var(--ifm-color-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background-color: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-primary-darker);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.2); /* Subtle glow */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 15px var(--ifm-color-primary); /* Stronger glow on hover */
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  color: var(--ifm-color-tertiary); /* Neon Purple for icons */
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-color-primary-lightest); /* Lighter green for titles */
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: var(--ifm-font-color-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .sectionTitle {
+    font-size: 2rem;
+  }
+}

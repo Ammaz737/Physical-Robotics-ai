@@ -1,0 +1,8 @@
+# ESLint ignore patterns
+node_modules/
+build/
+.docusaurus/
+.cache-loader/
+dist/
+coverage/
+*.min.js
