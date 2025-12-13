@@ -52,6 +52,7 @@ const config: Config = {
   projectName: 'docusaurus', // Usually your repo name.
 
   onBrokenLinks: 'throw',
+  onBrokenAnchors: 'ignore',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -145,14 +146,6 @@ const config: Config = {
               label: 'Introduction',
               to: '/docs/module1/intro-ros2',
             },
-            {
-              label: 'AI Agents',
-              to: '/docs/category/ai-agents', // Placeholder
-            },
-            {
-              label: 'Robotics Control',
-              to: '/docs/category/robotics-control', // Placeholder
-            },
           ],
         },
         {
@@ -165,10 +158,6 @@ const config: Config = {
             {
               label: 'Discord',
               href: 'https://discord.gg/panaversity', // Placeholder
-            },
-            {
-              label: 'Contact',
-              to: '/contact', // Placeholder
             },
           ],
         },
