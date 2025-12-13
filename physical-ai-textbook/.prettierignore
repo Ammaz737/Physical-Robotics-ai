@@ -1,9 +1,0 @@
-# Prettier ignore patterns
-node_modules/
-build/
-.docusaurus/
-.cache-loader/
-dist/
-coverage/
-package-lock.json
-yarn.lock
